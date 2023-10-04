@@ -1,6 +1,68 @@
 .App {
   text-align: center;
 }
+  .magazine {
+  display: block;
+  margin-left: 10px;
+  margin-top: 10px;
+  }
+
+.image {
+  height: 200px;
+  width: 200px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-content {
+ margin-top: 50px;
+ margin-left: 400px;
+}
+
+.side-bar {
+  width: 300px; 
+  padding: 20px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin-top: 70px;
+}
+.nachalo {
+  background-color: #61dafb;
+  color: white; 
+  border: none; 
+  height: 25px; 
+  border-radius: 3px;
+  margin-left: 500px;
+}
+.formulaclass {
+  background-color: #3CB371;
+  color: white;
+  border: none;
+  height: 25px;
+  border-radius: 3px;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.formulaclass.clicked {
+  background-color: gray; 
+  pointer-events: none; 
+}
+
+.formulaclass:active {
+  background-color: gray; }
+
+.formulaclass:active {
+  background-color: gray; 
+  }
+
+  .purchased {
+    color: green;
+  }
 
 .App-logo {
   height: 40vmin;
