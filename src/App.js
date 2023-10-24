@@ -37,6 +37,7 @@ function App() {
   }
 
   function resetCoins() {
+    // Сброс всех состояний
     setClickCount(0);
     setGrannyCount(0);
     setGrannyHired(false);
@@ -53,6 +54,9 @@ function App() {
     localStorage.removeItem('formulaPurchased');
     localStorage.removeItem('grannyPurchased');
     localStorage.removeItem('farmPurchased');
+
+    // Перезагрузка страницы
+    window.location.reload();
   }
 
   function clickImg() {
@@ -126,8 +130,10 @@ function App() {
             <button
               className={`formulaclass ${formulaPurchased || formulaClicked ? 'clicked' : ''}`}
               onClick={() => {
-                clickImg1();
-                purchaseFormula();
+                if (clickCount >= 10) {
+                  clickImg1();
+                  purchaseFormula();
+                }
               }}
             >
               Изучить выгодную формулу
