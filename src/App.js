@@ -38,6 +38,14 @@ function App() {
 
   function resetCoins() {
     setClickCount(0);
+    setGrannyCount(0);
+    setGrannyHired(false);
+    setFormulaPurchased(false);
+    setGrannyPurchased(false);
+    setFarmPurchased(false);
+    setFormulaClicked(false);
+    setGrannyClicked(false);
+    setFarmClicked(false);
   }
 
   function clickImg() {
