@@ -46,6 +46,13 @@ function App() {
     setFormulaClicked(false);
     setGrannyClicked(false);
     setFarmClicked(false);
+
+    // Очистка локального хранилища
+    localStorage.removeItem('chislo');
+    localStorage.removeItem('grannyHired');
+    localStorage.removeItem('formulaPurchased');
+    localStorage.removeItem('grannyPurchased');
+    localStorage.removeItem('farmPurchased');
   }
 
   function clickImg() {
