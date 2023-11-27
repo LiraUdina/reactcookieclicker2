@@ -78,10 +78,13 @@ function App() {
   function hireGranny() {
     if (!grannyHired && clickCount >= 15) {
       setClickCount(clickCount - 15);
-      setGrannyHired(true);
-      setGrannyCount(1);
+      //setGrannyHired(true);
+      //setGrannyCount(1);
       setGrannyPurchased(true);
       setGrannyClicked(true);
+      const farmInterval1 = setInterval(() => {
+        setClickCount((prevCount) => prevCount + 1);
+      }, 3000);
     }
   }
 
