@@ -7,7 +7,6 @@ function App() {
     parseInt(localStorage.getItem('chislo')) || 0
   );
   const [clickCount, setClickCount] = useState(initialChislo);
-  const [grannyCount, setGrannyCount] = useState(0);
   const [grannyHired, setGrannyHired] = useState(
     localStorage.getItem('grannyHired') === 'true' || false
   );
@@ -32,14 +31,24 @@ function App() {
     localStorage.setItem('farmPurchased', farmPurchased.toString());
   }, [clickCount, grannyHired, formulaPurchased, grannyPurchased, farmPurchased]);
 
+  useEffect(() => {
+    if (farmPurchased) {
+      const farmInterval2 = setInterval(() => {
+        setClickCount((prevCount) => prevCount + 10);
+      }, 5000);
+
+      return () => {
+        clearInterval(farmInterval2);
+      };
+    }
+  }, [farmPurchased]);
+
   function clickImg1() {
     setClickCount(clickCount + 2);
   }
 
   function resetCoins() {
-    // Сброс всех состояний
     setClickCount(0);
-    setGrannyCount(0);
     setGrannyHired(false);
     setFormulaPurchased(false);
     setGrannyPurchased(false);
@@ -48,14 +57,12 @@ function App() {
     setGrannyClicked(false);
     setFarmClicked(false);
 
-    // Очистка локального хранилища
     localStorage.removeItem('chislo');
     localStorage.removeItem('grannyHired');
     localStorage.removeItem('formulaPurchased');
     localStorage.removeItem('grannyPurchased');
     localStorage.removeItem('farmPurchased');
 
-    // Перезагрузка страницы
     window.location.reload();
   }
 
@@ -78,57 +85,49 @@ function App() {
   function hireGranny() {
     if (!grannyHired && clickCount >= 15) {
       setClickCount(clickCount - 15);
-      //setGrannyHired(true);
-      //setGrannyCount(1);
+      setGrannyHired(true);
       setGrannyPurchased(true);
       setGrannyClicked(true);
+
       const farmInterval1 = setInterval(() => {
         setClickCount((prevCount) => prevCount + 1);
       }, 3000);
     }
   }
 
+  useEffect(() => {
+    const grannyInterval1 = setInterval(() => {
+      if (grannyHired) {
+        setClickCount((prevCount) => prevCount + 1);
+      }
+    }, 3000);
+
+    return () => {
+      clearInterval(grannyInterval1);
+    };
+  }, [clickCount, grannyHired]);
+
   function purchaseFarm() {
     if (!farmPurchased && clickCount >= 30) {
       setClickCount(clickCount - 30);
       setFarmPurchased(true);
       setFarmClicked(true);
-
-      const farmInterval = setInterval(() => {
-        setClickCount((prevCount) => prevCount + 10);
-      }, 5000);
-
-      return () => {
-        clearInterval(farmInterval);
-      };
     }
   }
-
-  useEffect(() => {
-    localStorage.setItem('chislo', clickCount.toString());
-
-    const grannyInterval = setInterval(() => {
-      if (grannyHired) {
-        setClickCount((prevCount) => prevCount + grannyCount);
-      }
-    }, 3000);
-
-    return () => {
-      clearInterval(grannyInterval);
-    };
-  }, [clickCount, grannyCount, grannyHired]);
 
   return (
     <div className="App">
       <div className="main-container">
         <div className="main-content">
-          <button className='nachalo' onClick={resetCoins}>Начать заново</button>
+          <button className="nachalo" onClick={resetCoins}>
+            Начать заново
+          </button>
           <h2>Кликай на печеньку</h2>
-          <img className='image' id='img-cookie' src={cookie} onClick={clickImg} />
+          <img className="image" id="img-cookie" src={cookie} onClick={clickImg} />
           <p>Монеты {clickCount}</p>
         </div>
         <div className="side-bar">
-          <div className='magazine'>
+          <div className="magazine">
             <h3>Магазин</h3>
             <button
               className={`formulaclass ${formulaPurchased || formulaClicked ? 'clicked' : ''}`}
@@ -143,7 +142,7 @@ function App() {
             </button>
             <h5>Удваивает приток новых монет</h5>
             <h6>Стоимость: 10 монет.</h6>
-            <h6 id='formul1' >{formulaPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
+            <h6 id="formul1">{formulaPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
 
             <button
               className={`formulaclass ${grannyPurchased || grannyClicked ? 'clicked' : ''}`}
@@ -153,7 +152,7 @@ function App() {
             </button>
             <h5>Каждые 3 секунды продает 1 печенку</h5>
             <h6>Стоимость: 15 монет.</h6>
-            <h6 id='granny1' >{grannyPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
+            <h6 id="granny1">{grannyPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
 
             <button
               className={`formulaclass ${farmPurchased || farmClicked ? 'clicked' : ''}`}
@@ -163,7 +162,7 @@ function App() {
             </button>
             <h5>Каждые 5 секунд продает 10 печенек</h5>
             <h6>Стоимость: 30 монет.</h6>
-            <h6 id='ferma1' >{farmPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
+            <h6 id="ferma1">{farmPurchased ? 'Приобретено' : 'Не приобретено'}</h6>
           </div>
         </div>
       </div>
