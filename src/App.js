@@ -30,18 +30,37 @@ function App() {
     localStorage.setItem('grannyPurchased', grannyPurchased.toString());
     localStorage.setItem('farmPurchased', farmPurchased.toString());
   }, [clickCount, grannyHired, formulaPurchased, grannyPurchased, farmPurchased]);
-
   useEffect(() => {
     if (farmPurchased) {
       const farmInterval2 = setInterval(() => {
-        setClickCount((prevCount) => prevCount + 10);
+        if (formulaPurchased) {
+          setClickCount((prevCount) => prevCount + 20);
+        } else {
+          setClickCount((prevCount) => prevCount + 10);
+        }
       }, 5000);
-
+  
       return () => {
         clearInterval(farmInterval2);
       };
     }
-  }, [farmPurchased]);
+  }, [farmPurchased, formulaPurchased]);
+
+  useEffect(() => {
+    if (grannyHired) {
+      const grannyInterval1 = setInterval(() => {
+        if (formulaPurchased) {
+          setClickCount((prevCount) => prevCount + 2);
+        } else {
+          setClickCount((prevCount) => prevCount + 1);
+        }
+      }, 3000);
+
+      return () => {
+        clearInterval(grannyInterval1);
+      };
+    }
+  }, [clickCount, grannyHired, formulaPurchased]);
 
   function clickImg1() {
     setClickCount(clickCount + 2);
@@ -84,28 +103,12 @@ function App() {
 
   function hireGranny() {
     if (!grannyHired && clickCount >= 15) {
-      setClickCount(clickCount - 15);
+      setClickCount((prevCount) => prevCount - 15);
       setGrannyHired(true);
       setGrannyPurchased(true);
       setGrannyClicked(true);
-
-      const farmInterval1 = setInterval(() => {
-        setClickCount((prevCount) => prevCount + 1);
-      }, 3000);
     }
   }
-
-  useEffect(() => {
-    const grannyInterval1 = setInterval(() => {
-      if (grannyHired) {
-        setClickCount((prevCount) => prevCount + 1);
-      }
-    }, 3000);
-
-    return () => {
-      clearInterval(grannyInterval1);
-    };
-  }, [clickCount, grannyHired]);
 
   function purchaseFarm() {
     if (!farmPurchased && clickCount >= 30) {
